@@ -1,0 +1,38 @@
+from flask import Flask, request
+import base64
+from algorithm import time_complexity_visualizer
+from algorithm import linear_search, bubble_sort, binary_search, nested_loop, two_pointer
+
+algorithms = {
+    "linear_search" : linear_search,
+    "bubble_sort" : bubble_sort,
+    "binary_search" : binary_search,
+    "nested_loop" : nested_loop,
+    "two_pointer" : two_pointer
+}
+
+app = Flask(__name__)
+@app.route("/analyze")
+
+def analyze():
+    algo = request.args.get("algo")
+    step = request.args.get("step", type=int)
+    n_max = request.args.get("n_max", type=int)
+
+    algorithm = algorithms.get(algo)
+
+    image = time_complexity_visualizer(algorithm, 0, n_max, step)
+
+    with open(image, "rb") as image_file:
+        imagebinary = base64.b64encode(image_file.read()).decode("utf-8")
+
+    return {
+        "algorithm" : algo,
+        "step" : step,
+        "n_max" : n_max,
+        "image" : imagebinary
+    }
+
+if __name__ == "__main__":
+    app.run(port=5000)
+
