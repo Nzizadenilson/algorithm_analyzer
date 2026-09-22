@@ -86,3 +86,16 @@ def two_pointer(n):
         else:
             right -= 1
     return False
+
+def unique_users(n):
+    users = []
+    for k in range(n):
+        users.append({'id': k})
+    seen = set()
+
+    for user in users:
+        if user['id'] not in seen:
+            seen.add(user['id'])
+        return seen
+        
+

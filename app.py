@@ -1,14 +1,27 @@
 from flask import Flask, request
 import base64
 from algorithm import time_complexity_visualizer
-from algorithm import linear_search, bubble_sort, binary_search, nested_loop, two_pointer
+from algorithm import linear_search, bubble_sort, binary_search, nested_loop, two_pointer, unique_users
+from stk import stack, push, pop, peep, is_empty
+from stk import push_algorithm, pop_algorithm, peep_algorithm, isempty_algorithm
+from que import queue, enqueue, dequeue, peek, queis_empty
+from que import enqueue_algorithm, dequeue_algorithm, peek_algorithm, queis_empty_algorithm
 
 algorithms = {
     "linear_search" : linear_search,
     "bubble_sort" : bubble_sort,
     "binary_search" : binary_search,
     "nested_loop" : nested_loop,
-    "two_pointer" : two_pointer
+    "two_pointer" : two_pointer,
+    "unique_users" : unique_users,
+    "push_algorithm" : push_algorithm,
+    "pop_algorithm" : pop_algorithm,
+    "peep_algorithm" : peep_algorithm,
+    "isempty_algorithm" : isempty_algorithm,
+    "enqueue_algorithm" : enqueue_algorithm,
+    "dequeue_algorithm" : dequeue_algorithm,
+    "peek_algorithm" : peek_algorithm,
+    "queis_empty_algorithm" : queis_empty_algorithm
 }
 
 app = Flask(__name__)
