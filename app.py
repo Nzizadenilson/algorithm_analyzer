@@ -1,11 +1,13 @@
 from flask import Flask, request
 import base64
+import json
 from algorithm import time_complexity_visualizer
 from algorithm import linear_search, bubble_sort, binary_search, nested_loop, two_pointer, unique_users
 from stk import stack, push, pop, peep, is_empty
 from stk import push_algorithm, pop_algorithm, peep_algorithm, isempty_algorithm
 from que import queue, enqueue, dequeue, peek, queis_empty
 from que import enqueue_algorithm, dequeue_algorithm, peek_algorithm, queis_empty_algorithm
+from algo_db import Analysis, db
 
 algorithms = {
     "linear_search" : linear_search,
@@ -25,6 +27,10 @@ algorithms = {
 }
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///analysis.db"
+db.init_app(app)
+with app.app_context():
+    db.create_all()
 @app.route("/analyze")
 
 def analyze():
@@ -45,6 +51,19 @@ def analyze():
         "n_max" : n_max,
         "image" : imagebinary
     }
+@app.route('/save', methods=['POST'])
+def saveanalysis():
+    data = request.get_json()
+    analysis = Analysis(
+        algorithm = data["algo"],
+        step = data["step"],
+        n_max = data["n_max"]
+
+    )
+    db.session.add(analysis)
+    db.session.commit()
+
+    return{"message": "Analysis saved successfully"}
 
 if __name__ == "__main__":
     app.run(port=5000)
